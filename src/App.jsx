@@ -43,7 +43,7 @@ function App() {
 
   return (
     <>
-      <div className="w-[737px] mx-auto">
+      <div className="max-w-[737px] mx-auto">
 
         {/* Header */}
 
@@ -97,7 +97,7 @@ function App() {
 
         <div>
 
-          <div className="w-[736px] h-[64px] flex bg-search justify-between items-center pl-[24px] pr-[24px] rounded-[16px] mt-[51px]">
+          <div className="max-w-[736px] h-[64px] flex bg-search justify-between items-center pl-[24px] pr-[24px] rounded-[16px] mt-[51px]">
 
             <input className='bg-search outline-none w-[95%]'
             type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
