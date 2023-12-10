@@ -1,3 +1,6 @@
+
+// https://dictionaryapi.dev/
+
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -7,6 +10,10 @@ function App() {
   const [burgerMenu, setBurgerMenu] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [phonetic, setPhonetic] = useState("");
+  const [speach, setSpeach] = useState("");
+  const [definitionOne, setDefinitionOne] = useState("");
+  const [definitionTwo, setDefinitionTwo] = useState("");
+
 
 
   const getData = async () => {
@@ -29,17 +36,26 @@ function App() {
         audio.play()
           .then(() => console.log("Audio played successfully"))
           .catch(error => console.error("Error playing audio:", error));
-          console.log(audio)
       }
+      if (firstEntry && firstEntry.meanings[0].partOfSpeech && firstEntry.meanings[0].partOfSpeech.length > 0) {
+        setSpeach(firstEntry.meanings[0].partOfSpeech);
+      }
+      else {
+        setSpeach("");
+      }
+      if (firstEntry && firstEntry.meanings[0].definitions[0].definition && firstEntry.meanings[0].definitions[0].definition.length > 0) {
+        setDefinitionOne(firstEntry.meanings[0].definitions[0].definition);
+        setDefinitionTwo(firstEntry.meanings[0].definitions[1].definition);
+      }
+      else {
+        setDefinitionOne("");
+        setDefinitionTwo("")
+      }
+      console.log(firstEntry)
     } catch (error) {
         setPhonetic(false);
     }
   };
-
-
-
-  // console.log(inputValue);
-  // console.log(burgerMenu);
 
   return (
     <>
@@ -120,12 +136,32 @@ function App() {
               You can try <br></br> the search again at later time or head to the web instead.</p>
           </div>
 
-          <div className="">
+          <div className={phonetic === false ? 'hidden' : 'block'}>
 
-            <p className={phonetic === false ? 'hidden' : 'block'}>{inputValue}</p>
+            <div className={` w-full justify-between mt-[45px] flex`}>
 
-            <p>{phonetic}</p>
+              <div className="">
+                <p className=' text-64px font-bold text-blackOne'>{inputValue}</p>
 
+                <p className=' text-racxanairiPurple text-24px'>{phonetic}</p>
+
+              </div>
+
+              <img src="/assets/images/icon-play.svg" alt="" className={phonetic === false ? 'hidden' : 'block'} 
+              onClick={() => {inputValue !== "" ? getData().Audio : null}} />
+
+            </div>
+
+            <div className="flex w-full mt-[40px] items-center justify-between">
+              
+              <p className="text-24px font-bold text-blackOne">{speach}</p>
+
+              <hr className='bg-line h-[1px] w-[90%]'></hr>
+
+            </div>
+
+            <p className="">{definitionOne}</p>
+            <p className="">{definitionTwo}</p>
           </div>
         
         </div>

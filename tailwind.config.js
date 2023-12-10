@@ -17,7 +17,9 @@ export default {
         'fontShadow': '0px 5px 30px 0px rgba(0, 0, 0, 0.10)',
       },
       fontSize: {
-        '18px': '18px',     
+        '18px': '18px',
+        '24px': '24px',
+        '64px': '64px',
       }
     },
   },
