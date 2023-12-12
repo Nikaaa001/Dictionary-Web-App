@@ -13,6 +13,7 @@ function App() {
   const [speach, setSpeach] = useState("");
   const [definitionOne, setDefinitionOne] = useState("");
   const [definitionTwo, setDefinitionTwo] = useState("");
+  const [definitionThree, setDefinitionThree] = useState("");
 
 
 
@@ -43,13 +44,10 @@ function App() {
       else {
         setSpeach("");
       }
-      if (firstEntry && firstEntry.meanings[0].definitions[0].definition && firstEntry.meanings[0].definitions[0].definition.length > 0) {
-        setDefinitionOne(firstEntry.meanings[0].definitions[0].definition);
+      if (firstEntry && firstEntry.meanings[0].definitions[0].definition || firstEntry.meanings[0].definitions[1].definition || firstEntry.meanings[0].definitions[2].definition) {
+        setDefinitionThree(firstEntry.meanings[0].definitions[2].definition);
         setDefinitionTwo(firstEntry.meanings[0].definitions[1].definition);
-      }
-      else {
-        setDefinitionOne("");
-        setDefinitionTwo("")
+        setDefinitionOne(firstEntry.meanings[0].definitions[0].definition);
       }
       console.log(firstEntry)
     } catch (error) {
@@ -162,6 +160,7 @@ function App() {
 
             <p className="">{definitionOne}</p>
             <p className="">{definitionTwo}</p>
+            <p className="">{definitionThree}</p>
           </div>
         
         </div>
