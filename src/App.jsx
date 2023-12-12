@@ -44,9 +44,7 @@ function App() {
       else {
         setSpeach("");
       }
-      if (firstEntry && firstEntry.meanings[0].definitions[0].definition || firstEntry.meanings[0].definitions[1].definition || firstEntry.meanings[0].definitions[2].definition) {
-        setDefinitionThree(firstEntry.meanings[0].definitions[2].definition);
-        setDefinitionTwo(firstEntry.meanings[0].definitions[1].definition);
+      if (firstEntry && firstEntry.meanings[0].definitions[0].definition) {
         setDefinitionOne(firstEntry.meanings[0].definitions[0].definition);
       }
       console.log(firstEntry)
