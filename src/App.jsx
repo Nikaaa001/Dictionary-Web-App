@@ -11,9 +11,8 @@ function App() {
   const [inputValue, setInputValue] = useState("");
   const [phonetic, setPhonetic] = useState("");
   const [speach, setSpeach] = useState("");
-  const [definitionOne, setDefinitionOne] = useState("");
-  const [definitionTwo, setDefinitionTwo] = useState("");
-  const [definitionThree, setDefinitionThree] = useState("");
+  const [definitions, setDefinitions] = useState([]);
+  const [meaning, setMeaning] = useState(false)
 
 
 
@@ -40,16 +39,16 @@ function App() {
       }
       if (firstEntry && firstEntry.meanings[0].partOfSpeech && firstEntry.meanings[0].partOfSpeech.length > 0) {
         setSpeach(firstEntry.meanings[0].partOfSpeech);
+        setDefinitions(firstEntry.meanings[1].definitions[0]);
+        setMeaning(firstEntry.meanings[0].synonyms);
+        console.log(firstEntry)
+
       }
       else {
-        setSpeach("");
+        setSpeach(false);
       }
-      if (firstEntry && firstEntry.meanings[0].definitions[0].definition) {
-        setDefinitionOne(firstEntry.meanings[0].definitions[0].definition);
-      }
-      console.log(firstEntry)
     } catch (error) {
-        setPhonetic(false);
+        setSpeach(false);
     }
   };
 
@@ -121,7 +120,7 @@ function App() {
 
           </div>
 
-          <div className={`w-[100%] h-[204px] mt-[132px] text-center ${phonetic === false ? 'block' : 'hidden'}`}>
+          <div className={`w-[100%] h-[204px] mt-[132px] text-center ${speach === false ? 'hidden' : 'block'}`}>
             <p>😕</p>
 
             <h3 className='text-blackOne mt-[44px]'>No Definitions Found</h3>
@@ -132,7 +131,7 @@ function App() {
               You can try <br></br> the search again at later time or head to the web instead.</p>
           </div>
 
-          <div className={phonetic === false ? 'hidden' : 'block'}>
+          <div >
 
             <div className={` w-full justify-between mt-[45px] flex`}>
 
@@ -143,8 +142,10 @@ function App() {
 
               </div>
 
-              <img src="/assets/images/icon-play.svg" alt="" className={phonetic === false ? 'hidden' : 'block'} 
-              onClick={() => {inputValue !== "" ? getData().Audio : null}} />
+              <img src="/assets/images/icon-play.svg" alt="" 
+              onClick={() => {
+                inputValue !== "" && getData();
+              }} />
 
             </div>
 
@@ -156,9 +157,21 @@ function App() {
 
             </div>
 
-            <p className="">{definitionOne}</p>
-            <p className="">{definitionTwo}</p>
-            <p className="">{definitionThree}</p>
+            <p className="text-20px text-darkBtn mt-[40px]">Meaning</p>
+            
+            <ul className="list-disc mt-[25px]">
+              {definitions && definitions.map((meaning, index) => (
+                <div key={index}>
+                  <p className="text-24px font-bold text-blackOne">{meaning.partOfSpeech}</p>
+                  <ul>
+                    {meaning.definitions.map((definition, index) => (
+                      <li key={index} className="text-16px text-darkBtn">{definition.definition}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </ul>
+
           </div>
         
         </div>
