@@ -41,16 +41,16 @@ function App() {
         setSpeach(firstEntry.meanings[0].partOfSpeech);
         setDefinitions(firstEntry.meanings[1].definitions[0]);
         setMeaning(firstEntry.meanings[0].synonyms);
-        console.log(firstEntry)
-
       }
       else {
         setSpeach(false);
       }
+    
     } catch (error) {
         setSpeach(false);
     }
   };
+  
 
   return (
     <>
