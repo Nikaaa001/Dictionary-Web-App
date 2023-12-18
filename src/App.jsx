@@ -12,8 +12,26 @@ function App() {
   const [phonetic, setPhonetic] = useState("");
   const [speach, setSpeach] = useState("");
   const [definitions, setDefinitions] = useState([]);
-  const [meaning, setMeaning] = useState(false)
+  const [meaning, setMeaning] = useState(false);
+  const [examples, setExamples] = useState("");
+  const [synonym, setSynonym] = useState("");
 
+
+  const getSynonyms = async (word) => {
+    try {
+      const synonymsResponse = await axios.get(
+        `https://api.example.com/synonyms/${word}`
+      );
+  
+      const synonymsData = synonymsResponse.data;
+  
+      getSynonyms(inputValue);
+    } catch (error) {
+      setSynonym("");
+      console.error("Error fetching synonyms:", error);
+    }
+  };
+  
 
 
   const getData = async () => {
@@ -25,11 +43,17 @@ function App() {
 
       const firstEntry = response.data[0];
 
+      if (firstEntry && firstEntry.meanings && firstEntry.meanings.length > 0) {
+        setDefinitions(firstEntry.meanings);
+      } else {
+        setDefinitions([]);
+      }
+
       if (firstEntry && firstEntry.phonetics && firstEntry.phonetics.length > 0) {
         setPhonetic(firstEntry.phonetics[0].text);
       }
       else {
-        setPhonetic(false);
+        setPhonetic("");
       }
       if (firstEntry.phonetics[0].audio) {
         const audio = new Audio(firstEntry.phonetics[0].audio);
@@ -37,17 +61,27 @@ function App() {
           .then(() => console.log("Audio played successfully"))
           .catch(error => console.error("Error playing audio:", error));
       }
-      if (firstEntry && firstEntry.meanings[0].partOfSpeech && firstEntry.meanings[0].partOfSpeech.length > 0) {
-        setSpeach(firstEntry.meanings[0].partOfSpeech);
-        setDefinitions(firstEntry.meanings[1].definitions[0]);
-        setMeaning(firstEntry.meanings[0].synonyms);
+      if (firstEntry && firstEntry.meanings[0] && firstEntry.meanings[0].definitions) {
+        const firstMeaning = firstEntry.meanings[0];
+        if (firstMeaning.definitions.length > 0) {
+          setSpeach(firstMeaning.partOfSpeech);
+      
+          // Corrected line
+          setExamples(firstMeaning.definitions[0].example || []);
+          setSynonym(firstMeaning.definitions[0].synonyms[0])
+      
+          // ... rest of your code
+        }
+      } else {
+        setSpeach("");
       }
-      else {
-        setSpeach(false);
-      }
-    
+      
+    console.log(firstEntry)
     } catch (error) {
-        setSpeach(false);
+        setDefinitions([]);
+        setPhonetic("");
+        setSpeach("");
+        console.error("Error fetching data:", error);
     }
   };
   
@@ -120,7 +154,7 @@ function App() {
 
           </div>
 
-          <div className={`w-[100%] h-[204px] mt-[132px] text-center ${speach === false ? 'hidden' : 'block'}`}>
+          {/* <div className={`w-[100%] h-[204px] mt-[132px] text-center ${speach === false ? 'hidden' : 'block'}`}>
             <p>😕</p>
 
             <h3 className='text-blackOne mt-[44px]'>No Definitions Found</h3>
@@ -129,7 +163,7 @@ function App() {
               Sorry pal, we couldn't 
               find definitions for the word you were looking for. 
               You can try <br></br> the search again at later time or head to the web instead.</p>
-          </div>
+          </div> */}
 
           <div >
 
@@ -148,29 +182,53 @@ function App() {
               }} />
 
             </div>
-
-            <div className="flex w-full mt-[40px] items-center justify-between">
-              
-              <p className="text-24px font-bold text-blackOne">{speach}</p>
-
-              <hr className='bg-line h-[1px] w-[90%]'></hr>
-
-            </div>
-
-            <p className="text-20px text-darkBtn mt-[40px]">Meaning</p>
             
-            <ul className="list-disc mt-[25px]">
-              {definitions && definitions.map((meaning, index) => (
-                <div key={index}>
-                  <p className="text-24px font-bold text-blackOne">{meaning.partOfSpeech}</p>
-                  <ul>
-                    {meaning.definitions.map((definition, index) => (
-                      <li key={index} className="text-16px text-darkBtn">{definition.definition}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </ul>
+           {definitions.length > 0 ? (
+              <ul className="list-disc mt-[25px]">
+                {definitions.map((meaning, index) => (
+                  <div key={index}>
+                    <div className="flex items-center justify-between mt-[40px]">
+                      <p className="text-24px font-bold text-blackOne">{meaning.partOfSpeech}</p>
+                      <hr className="w-[90%] h-[1px] bg-line" />
+                    </div>
+                    <p className="text-20px text-darkBtn mt-[40px]">Meaning</p>
+                    <ul className=' list-disc mt-[25px] flex flex-col gap-[13px]'>
+                      {meaning.definitions.map((definition, index) => (
+                        <li key={index} className="text-16px text-blackOne">{definition.definition}
+                        {definition.synonyms && definition.synonyms.length > 0 && (
+                          <div className="mt-[10px]">
+                            <p className="text-gray-600">Synonyms:</p>
+                            <ul className="list-disc pl-[20px]">
+                              {definition.synonyms.map((synonym, sIdx) => (
+                                <li key={sIdx} className="text-16px text-gray-600">
+                                  {synonym}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        </li>
+                      ))}
+                      
+                    {meaning.examples && meaning.examples.length > 0 && (
+                      <ul className="">
+                        {meaning.examples.map((example, eIdx) => (
+                          <li key={eIdx} className="text-16px text-red-600">
+                            {example}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    </ul>
+                  </div>
+                ))}
+              </ul>
+              
+            ) : (
+              <p className="text-darkBtn mt-[25px]">No definitions found.</p>
+            )}
+
+            
 
           </div>
         
