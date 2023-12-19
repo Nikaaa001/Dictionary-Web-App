@@ -21,7 +21,12 @@ export default {
         '20px': '20px',
         '24px': '24px',
         '64px': '64px',
-      }
+      },
+      fontFamily: {
+        lato: "'Lato', sans-serif",
+        roboto: "'Roboto Mono', monospace",
+        garamond: "'EB Garamond', serif"
+      },
     },
   },
   plugins: [],

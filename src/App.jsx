@@ -14,23 +14,23 @@ function App() {
   const [definitions, setDefinitions] = useState([]);
   const [meaning, setMeaning] = useState(false);
   const [examples, setExamples] = useState("");
-  const [synonym, setSynonym] = useState("");
+  const [synonyms, setSynonyms] = useState([]);
 
+  // const getSynonyms = async (word) => {
+  //   try {
+  //     const synonymsResponse = await axios.get(
+  //       `https://api.datamuse.com/words?rel_syn=` + word
+  //     );
 
-  const getSynonyms = async (word) => {
-    try {
-      const synonymsResponse = await axios.get(
-        `https://api.example.com/synonyms/${word}`
-      );
-  
-      const synonymsData = synonymsResponse.data;
-  
-      getSynonyms(inputValue);
-    } catch (error) {
-      setSynonym("");
-      console.error("Error fetching synonyms:", error);
-    }
-  };
+  //     const synonymsData = synonymsResponse.data.map((item) => item.word);
+
+  //     setSynonyms(synonymsData);
+  //   } catch (error) {
+  //     setSynonyms([]);
+  //     console.error("Error fetching synonyms:", error);
+  //   }
+  // };
+
   
 
 
@@ -65,12 +65,7 @@ function App() {
         const firstMeaning = firstEntry.meanings[0];
         if (firstMeaning.definitions.length > 0) {
           setSpeach(firstMeaning.partOfSpeech);
-      
-          // Corrected line
           setExamples(firstMeaning.definitions[0].example || []);
-          setSynonym(firstMeaning.definitions[0].synonyms[0])
-      
-          // ... rest of your code
         }
       } else {
         setSpeach("");
@@ -79,7 +74,7 @@ function App() {
     console.log(firstEntry)
     } catch (error) {
         setDefinitions([]);
-        setPhonetic("");
+        setPhonetic(false);
         setSpeach("");
         console.error("Error fetching data:", error);
     }
@@ -144,7 +139,7 @@ function App() {
 
           <div className="max-w-[736px] h-[64px] flex bg-search justify-between items-center pl-[24px] pr-[24px] rounded-[16px] mt-[51px]">
 
-            <input className='bg-search outline-none w-[95%]'
+            <input className={`bg-search outline-none w-[95%] ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}
             type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
 
             <img className='w-[16px] h-[16px]'
@@ -154,26 +149,25 @@ function App() {
 
           </div>
 
-          {/* <div className={`w-[100%] h-[204px] mt-[132px] text-center ${speach === false ? 'hidden' : 'block'}`}>
+          <div className={`w-[100%] h-[204px] mt-[132px] text-center ${phonetic === false ? 'block' : 'hidden'}`}>
             <p>😕</p>
 
-            <h3 className='text-blackOne mt-[44px]'>No Definitions Found</h3>
+            <h3 className={`text-blackOne mt-[44px] ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>No Definitions Found</h3>
 
-            <p className=' text-darkBtn mt-[24px]'>
+            <p className={`text-darkBtn mt-[24px] ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>
               Sorry pal, we couldn't 
               find definitions for the word you were looking for. 
               You can try <br></br> the search again at later time or head to the web instead.</p>
-          </div> */}
+          </div>
 
-          <div >
+          <div className={phonetic === false ? 'hidden' : phonetic === "" ? 'hidden' : 'block'}>
 
             <div className={` w-full justify-between mt-[45px] flex`}>
 
               <div className="">
-                <p className=' text-64px font-bold text-blackOne'>{inputValue}</p>
+                <p className={`text-64px font-bold text-blackOne ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>{inputValue}</p>
 
-                <p className=' text-racxanairiPurple text-24px'>{phonetic}</p>
-
+                <p className={`text-racxanairiPurple text-24px ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>{phonetic}</p>
               </div>
 
               <img src="/assets/images/icon-play.svg" alt="" 
@@ -188,19 +182,19 @@ function App() {
                 {definitions.map((meaning, index) => (
                   <div key={index}>
                     <div className="flex items-center justify-between mt-[40px]">
-                      <p className="text-24px font-bold text-blackOne">{meaning.partOfSpeech}</p>
+                      <p className={`text-24px font-bold text-blackOne ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>{meaning.partOfSpeech}</p>
                       <hr className="w-[90%] h-[1px] bg-line" />
                     </div>
-                    <p className="text-20px text-darkBtn mt-[40px]">Meaning</p>
+                    <p className={`text-20px text-darkBtn mt-[40px] ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>Meaning</p>
                     <ul className=' list-disc mt-[25px] flex flex-col gap-[13px]'>
                       {meaning.definitions.map((definition, index) => (
-                        <li key={index} className="text-16px text-blackOne">{definition.definition}
+                        <li key={index} className={`text-16px text-blackOne ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>{definition.definition}
                         {definition.synonyms && definition.synonyms.length > 0 && (
-                          <div className="mt-[10px]">
-                            <p className="text-gray-600">Synonyms:</p>
-                            <ul className="list-disc pl-[20px]">
+                          <div className="mt-[10px] flex">
+                            <p className={`text-darkBtn ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>Synonyms:</p>
+                            <ul className=" flex gap-[22px] ml-[22px]">
                               {definition.synonyms.map((synonym, sIdx) => (
-                                <li key={sIdx} className="text-16px text-gray-600">
+                                <li key={sIdx} className={`text-16px text-racxanairiPurple ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>
                                   {synonym}
                                 </li>
                               ))}
@@ -213,7 +207,7 @@ function App() {
                     {meaning.examples && meaning.examples.length > 0 && (
                       <ul className="">
                         {meaning.examples.map((example, eIdx) => (
-                          <li key={eIdx} className="text-16px text-red-600">
+                          <li key={eIdx} className={`text-16px text-red-600 ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>
                             {example}
                           </li>
                         ))}
@@ -225,7 +219,7 @@ function App() {
               </ul>
               
             ) : (
-              <p className="text-darkBtn mt-[25px]">No definitions found.</p>
+              <p className={`text-darkBtn mt-[25px] ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>No definitions found.</p>
             )}
 
             
