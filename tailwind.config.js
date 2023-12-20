@@ -12,6 +12,8 @@ export default {
         'racxanairiPurple': '#A445ED',
         'search': '#F4F4F4',
         'blackOne': '#2D2D2D',
+        'darkMode': '#050505',
+        'searchBg': '#1F1F1F',
       },
       boxShadow: {
         'fontShadow': '0px 5px 30px 0px rgba(0, 0, 0, 0.10)',

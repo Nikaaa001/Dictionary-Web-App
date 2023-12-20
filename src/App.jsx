@@ -15,6 +15,8 @@ function App() {
   const [meaning, setMeaning] = useState(false);
   const [examples, setExamples] = useState("");
   const [synonyms, setSynonyms] = useState([]);
+  const [darkMode, setDarkMode] = useState("light");
+  const [side, setSide] = useState("left")
 
   // const getSynonyms = async (word) => {
   //   try {
@@ -82,19 +84,19 @@ function App() {
   
 
   return (
-    <>
-      <div className="max-w-[737px] mx-auto">
+    <div className={`w-full min-h-screen ${darkMode === "light" ? 'bg-[#FFF]' : 'bg-darkMode'}`}>
+      <div className={`max-w-[737px] mx-auto`}>
 
         {/* Header */}
 
-        <div className=" w-full h-[37px] flex justify-between items-center mt-[58px]">
+        <div className=" w-full h-[37px] flex justify-between items-center">
 
-          <img src="./assets/images/logo.svg" alt="Logo" />
+          <img src="./assets/images/logo.svg" alt="Logo" className='mt-[58px]'/>
           
-          <div className="relative w-[253px] h-[full] flex items-center justify-between">
+          <div className="relative w-[253px] h-[full] flex items-center justify-between mt-[58px]">
 
             <div className="flex items-center hover:cursor-pointer" onClick={() => setBurgerMenu(true)}>
-              <span className='text-18px'>{font}</span>
+              <span className={`text-18px ${darkMode === "light" ? ' text-blackOne' : 'text-[#FFF]'}`}>{font}</span>
               <img src="./assets/images/icon-arrow-down.svg" alt="" className="ml-[16px]" />
             </div>
 
@@ -117,12 +119,19 @@ function App() {
 
             </div>
 
-            <div className="w-[1px] h-[36px] bg-line"></div>
+            <div className={`w-[1px] h-[36px] ${darkMode === "light" ? 'bg-line' : ' bg-search'}`}></div>
 
             <div className="w-[80px] flex justify-between">
 
-              <div className="w-[40px] h-[20px] bg-darkBtn rounded-[10px] flex items-center">
-                <div className="w-[14px] h-[14px] bg-[#FFF] rounded-[50%] ml-[3px]"></div>
+              <div className={`w-[40px] h-[20px] rounded-[10px] flex items-center hover:cursor-pointer ${darkMode === "light" ? 'bg-darkBtn' : 'bg-racxanairiPurple'}`}
+               onClick={() => {
+                if (darkMode === "light") {
+                  setDarkMode("dark")
+                } else {
+                  setDarkMode("light")
+                }
+               }}>
+                <div className={`w-[14px] h-[14px] bg-[#FFF] rounded-[50%] ${darkMode === "light" ? "ml-[3px]" : " ml-auto mr-[3px]"}`}></div>
               </div>
 
               <img src="./assets/images/icon-moon.svg" alt="Moon" className="" />
@@ -137,9 +146,9 @@ function App() {
 
         <div>
 
-          <div className="max-w-[736px] h-[64px] flex bg-search justify-between items-center pl-[24px] pr-[24px] rounded-[16px] mt-[51px]">
+          <div className={`max-w-[736px] h-[64px] flex justify-between items-center pl-[24px] pr-[24px] rounded-[16px] mt-[51px] ${darkMode === "light" ? 'bg-search' : 'bg-searchBg'}`}>
 
-            <input className={`bg-search outline-none w-[95%] ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}
+            <input className={`outline-none w-[95%] ${darkMode === "light" ? "bg-search text-blackOne" : "bg-searchBg text-[#FFF]"} ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}
             type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
 
             <img className='w-[16px] h-[16px]'
@@ -165,7 +174,7 @@ function App() {
             <div className={` w-full justify-between mt-[45px] flex`}>
 
               <div className="">
-                <p className={`text-64px font-bold text-blackOne ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>{inputValue}</p>
+                <p className={`text-64px font-bold ${darkMode === "light" ? ' text-blackOne' : 'text-[#FFF]'} ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>{inputValue}</p>
 
                 <p className={`text-racxanairiPurple text-24px ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>{phonetic}</p>
               </div>
@@ -182,13 +191,13 @@ function App() {
                 {definitions.map((meaning, index) => (
                   <div key={index}>
                     <div className="flex items-center justify-between mt-[40px]">
-                      <p className={`text-24px font-bold text-blackOne ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>{meaning.partOfSpeech}</p>
+                      <p className={`text-24px font-bold ${darkMode === "light" ? "text-blackOne" : "text-[#FFF]"} ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>{meaning.partOfSpeech}</p>
                       <hr className="w-[90%] h-[1px] bg-line" />
                     </div>
-                    <p className={`text-20px text-darkBtn mt-[40px] ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>Meaning</p>
+                    <p className={`text-20px mt-[40px] ${darkMode === "light" ? 'text-darkBtn' : 'text-[#FFF]'} ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>Meaning</p>
                     <ul className=' list-disc mt-[25px] flex flex-col gap-[13px]'>
                       {meaning.definitions.map((definition, index) => (
-                        <li key={index} className={`text-16px text-blackOne ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>{definition.definition}
+                        <li key={index} className={`text-16px ${darkMode === "light" ? 'text-darkBtn' : 'text-[#FFF]'} ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>{definition.definition}
                         {definition.synonyms && definition.synonyms.length > 0 && (
                           <div className="mt-[10px] flex">
                             <p className={`text-darkBtn ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>Synonyms:</p>
@@ -230,7 +239,7 @@ function App() {
 
 
       </div>
-    </>
+    </div>
   )
 }
 
