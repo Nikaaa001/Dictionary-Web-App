@@ -16,7 +16,9 @@ function App() {
   const [examples, setExamples] = useState("");
   const [synonyms, setSynonyms] = useState([]);
   const [darkMode, setDarkMode] = useState("light");
-  const [side, setSide] = useState("left")
+  const [side, setSide] = useState("left");
+  const [wiki, setWiki] = useState("");
+  const [nothing, setNothing] = useState(true);
 
   // const getSynonyms = async (word) => {
   //   try {
@@ -72,8 +74,12 @@ function App() {
       } else {
         setSpeach("");
       }
-      
-    console.log(firstEntry)
+      if (firstEntry && firstEntry.sourceUrls[0]) {
+        setWiki(firstEntry.sourceUrls[0])
+      } else {
+        setWiki("");
+      }
+      console.log(firstEntry)
     } catch (error) {
         setDefinitions([]);
         setPhonetic(false);
@@ -146,22 +152,29 @@ function App() {
 
         <div>
 
-          <div className={`max-w-[736px] h-[64px] flex justify-between items-center pl-[24px] pr-[24px] rounded-[16px] mt-[51px] ${darkMode === "light" ? 'bg-search' : 'bg-searchBg'}`}>
+          <div className={`max-w-[736px] h-[64px] flex justify-between items-center pl-[24px] pr-[24px] rounded-[16px] mt-[51px] ${nothing === false ? 'border-[1px] border-nothingRed' : ''} ${darkMode === "light" ? 'bg-search' : 'bg-searchBg'}`}>
 
             <input className={`outline-none w-[95%] ${darkMode === "light" ? "bg-search text-blackOne" : "bg-searchBg text-[#FFF]"} ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}
             type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
 
             <img className='w-[16px] h-[16px]'
-            src="./assets/images/icon-search.svg" alt="" onClick={() => {
-              inputValue !== "" ? getData() : null;
+            src="./assets/images/icon-search.svg" alt="" onClick={() => { {
+              if (inputValue >= 0) {
+                  setNothing(false);
+                } else {
+                  setNothing(true);
+                  inputValue !== "" ? getData() : null;
+                }
+              }
             }} />
 
           </div>
+          <p className={`text-20px text-nothingRed ${nothing === false ? 'block' : 'hidden'} ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>Whoops, can’t be empty…</p>
 
           <div className={`w-[100%] h-[204px] mt-[132px] text-center ${phonetic === false ? 'block' : 'hidden'}`}>
             <p>😕</p>
 
-            <h3 className={`text-blackOne mt-[44px] ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>No Definitions Found</h3>
+            <h3 className={`mt-[44px] ${darkMode === "light" ? ' text-blackOne' : 'text-[#FFF]'} ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>No Definitions Found</h3>
 
             <p className={`text-darkBtn mt-[24px] ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>
               Sorry pal, we couldn't 
@@ -226,10 +239,17 @@ function App() {
                   </div>
                 ))}
               </ul>
-              
             ) : (
               <p className={`text-darkBtn mt-[25px] ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'}`}>No definitions found.</p>
             )}
+
+            <div className="w-full">
+              <hr className={`w-[100%] h-[1px] mt-[40px] ${darkMode === "light" ? 'bg-darkLine' : 'bg-line'}`} />
+              <div className="flex mt-[20px] mb-[50px]">
+                <p className=" text-darkBtn">Source</p>
+                <a className={`ml-[10px] ${darkMode === "light" ? 'text-blackOne' : 'text-[#FFF]'}`} href={wiki}>{wiki}</a>
+              </div>
+            </div>
 
             
 

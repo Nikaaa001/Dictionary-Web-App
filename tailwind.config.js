@@ -14,6 +14,8 @@ export default {
         'blackOne': '#2D2D2D',
         'darkMode': '#050505',
         'searchBg': '#1F1F1F',
+        'darkLine': '#3A3A3A',
+        'nothingRed': '#FF5252',
       },
       boxShadow: {
         'fontShadow': '0px 5px 30px 0px rgba(0, 0, 0, 0.10)',
