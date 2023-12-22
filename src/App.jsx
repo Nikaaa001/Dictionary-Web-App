@@ -90,12 +90,12 @@ function App() {
   
 
   return (
-    <div className={`w-full min-h-screen ${darkMode === "light" ? 'bg-[#FFF]' : 'bg-darkMode'}`}>
-      <div className={`max-w-[737px] mx-auto`}>
+    <div className={`w-full min-h-screen pb-[50px] ${darkMode === "light" ? 'bg-[#FFF]' : 'bg-darkMode'}`}>
+      <div className={`max-w-[737px] mx-auto min-md:mr-[25px]`}>
 
         {/* Header */}
 
-        <div className=" w-full h-[37px] flex justify-between items-center">
+        <div className=" w-full h-[37px] flex justify-between items-center max-md:pl-[25px] max-md:pr-[25px]">
 
           <img src="./assets/images/logo.svg" alt="Logo" className='mt-[58px]'/>
           
@@ -106,19 +106,19 @@ function App() {
               <img src="./assets/images/icon-arrow-down.svg" alt="" className="ml-[16px]" />
             </div>
 
-            <div className={`absolute w-[183px] h-[152px] rounded-[16px] bg-[#FFF] shadow-fontShadow top-[25px] left-[-70px] flex-col ${burgerMenu === false ? 'hidden' : 'flex'}`}>
+            <div className={`absolute w-[183px] h-[152px] rounded-[16px] shadow-fontShadow top-[25px] left-[-70px] flex-col ${darkMode === "light" ? 'bg-[#FFF]' : 'bg-searchBg'} ${font === "Sans Serif" ? 'font-lato' : font === "Serif" ? 'font-garamond' : 'font-roboto'} ${burgerMenu === false ? 'hidden' : 'flex'}`}>
 
-              <span className=' hover:cursor-pointer' onClick={() => {
+              <span className={`ml-[24px] mt-[24px] text-[18px] hover:cursor-pointer hover:text-racxanairiPurple ${darkMode === "light" ? 'text-blackOne' : 'text-[#FFF]'}`} onClick={() => {
                 setFont("Sans Serif")
                 setBurgerMenu(false)
                 }}>Sans Serif</span>
 
-              <span className=' hover:cursor-pointer' onClick={() => {
+              <span className={`ml-[24px] text-[18px] hover:cursor-pointer hover:text-racxanairiPurple ${darkMode === "light" ? 'text-blackOne' : 'text-[#FFF]'}`} onClick={() => {
                 setFont("Serif")
                 setBurgerMenu(false)
                 }}>Serif</span>
 
-              <span className=' hover:cursor-pointer' onClick={() => {
+              <span className={`ml-[24px] text-[18px] hover:cursor-pointer hover:text-racxanairiPurple ${darkMode === "light" ? 'text-blackOne' : 'text-[#FFF]'}`} onClick={() => {
                 setFont("Mono")
                 setBurgerMenu(false)
                 }}>Mono</span>
@@ -150,7 +150,7 @@ function App() {
 
         {/* Header */}
 
-        <div>
+        <div className='max-md:pl-[25px] max-md:pr-[25px]'>
 
           <div className={`max-w-[736px] h-[64px] flex justify-between items-center pl-[24px] pr-[24px] rounded-[16px] mt-[51px] ${nothing === false ? 'border-[1px] border-nothingRed' : ''} ${darkMode === "light" ? 'bg-search' : 'bg-searchBg'}`}>
 
@@ -245,7 +245,7 @@ function App() {
 
             <div className="w-full">
               <hr className={`w-[100%] h-[1px] mt-[40px] ${darkMode === "light" ? 'bg-darkLine' : 'bg-line'}`} />
-              <div className="flex mt-[20px] mb-[50px]">
+              <div className="flex mt-[20px]">
                 <p className=" text-darkBtn">Source</p>
                 <a className={`ml-[10px] ${darkMode === "light" ? 'text-blackOne' : 'text-[#FFF]'}`} href={wiki}>{wiki}</a>
               </div>
